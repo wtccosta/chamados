@@ -4,7 +4,7 @@
       <div class="col-md-8 offset-md-2">
         <b-form @submit.prevent="onSubmit" @reset="onReset">
           <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
               <b-form-group
                 id="solicitante-group"
                 label="Solicitante:"
@@ -34,7 +34,7 @@
               </b-form-group>
             </div>
 
-            <div class="col-6">
+            <div class="col-md-6">
               <b-form-group
                 id="email-group"
                 label="Email:"

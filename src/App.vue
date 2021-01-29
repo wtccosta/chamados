@@ -1,28 +1,36 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="conteiner">
+        <chamado-header />
+        <main>
+          <chamado-form />
+        </main>
+
+        <footer>
+          <chamados-footer />
+        </footer>
+        
+    </div>
+    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ChamadoForm from './components/ChamadoForm.vue'
+import ChamadosFooter from './components/ChamadosFooter.vue'
+import ChamadoHeader from './components/ChamadosHeader.vue'
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    ChamadoForm,
+    ChamadoHeader,
+    ChamadosFooter
+}
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+main{
+  min-height: 75vh;
 }
 </style>

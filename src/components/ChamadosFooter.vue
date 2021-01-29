@@ -18,7 +18,7 @@ export default {};
   color: rgb(255, 255, 255);
   background-color: #343a40 !important;
   min-height: 10vh;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
 }
 
 @media (max-width: 320) {

@@ -152,8 +152,9 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      apiPublic.post("chamados", this.form).then((response) => {
+    async onSubmit() {
+      const api = await apiPublic();
+      api.post("chamados", this.form).then((response) => {
         this.reset();
         this.show = false;
         this.result = response.data;

@@ -21,6 +21,7 @@
 <script>
 import { apiProtected } from "./../configs/apiServices";
 export default {
+  name: 'ChamadosSelect',
   props: {
     title: {
       type: String,

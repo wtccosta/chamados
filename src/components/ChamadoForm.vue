@@ -28,7 +28,7 @@
                 <b-form-input
                   id="telefone-form"
                   v-model="form.telefoneContato"
-                  type="text"
+                  type="phone"
                   placeholder="Telefone ou Celular"
                 ></b-form-input>
               </b-form-group>
@@ -57,7 +57,7 @@
                 <b-form-input
                   id="local-form"
                   v-model="form.endereco"
-                  type="local"
+                  type="text"
                   placeholder="Local a ser atendido"
                 ></b-form-input>
               </b-form-group>

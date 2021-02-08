@@ -1,7 +1,7 @@
 
 <template>
   <div v-if="show">
-    <label :for="title" class="form-label">{{ titleLabel }}</label>
+    <slot name="label"></slot>
     <v-select
       class="form-group"
       :options="options"
@@ -34,7 +34,6 @@ export default {
     },
 
     oldSelectedId: {
-      type: String,
       required: false,
     },
   },
@@ -104,7 +103,7 @@ export default {
     },
 
     async optionsSelect() {
-      const api = await apiProtected
+      const api = await apiProtected()
       api
         .get(`${this.title}`)
         .then((response) => {
@@ -115,8 +114,10 @@ export default {
         });
     },
 
-    getOldValue() {
-      apiProtected
+    async getOldValue() {
+      if(this.oldSelectedId != undefined && this.oldSelectedId != null){
+       const api = await apiProtected()
+      api
         .get(`${this.title}/${this.oldSelectedId}`)
         .then((response) => {
           this.form.selected = this.convertToVSelectPattern(response.data);
@@ -124,7 +125,7 @@ export default {
         .catch((error) => {
           this.mapErrors(error);
         });
-    },
+    }},
   },
   mounted() {
     this.optionsSelect();

@@ -180,6 +180,13 @@ export default {
       if(date === undefined) return
       return  new Date(Date.parse(date)).toLocaleDateString()
     }
+  },
+  mounted () {
+        "Escolha um técnico e um local.";
+              this.$bvModal.msgBoxOk('Desabilite seu adBlock, ou outro bloqueador de propaganda, pois são icompatíveis com este sistema.')
+          .then(value => {
+            this.boxOne = value
+          })
   }
 };
 </script>

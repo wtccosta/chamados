@@ -31,7 +31,14 @@
             <b-col cols="8">
               <dl class="row">
                 <dt class="col-sm-4 text-sm-right">Descrição</dt>
-                <dd class="col-sm-6"><input type="text" :disabled="validSolution(row.item)" v-model="row.item.descricao"></dd>
+                <dd class="col-sm-6">
+                 <b-form-textarea
+                 :disabled="validSolution(row.item)" v-model="row.item.descricao"
+                  rows="3"
+                  max-rows="6"
+                  required
+                ></b-form-textarea>
+                </dd>
                 <dt class="col-sm-4 text-sm-right">Solicitante</dt>
                 <dd class="col-sm-6"><input type="text" :disabled="validSolution(row.item)" v-model="row.item.solicitante"></dd>
                 <dt class="col-sm-4 text-sm-right">Email:</dt>
@@ -155,6 +162,7 @@ export default {
   methods: {
     async loadData() {
       this.isBusy = true;
+      this.resetErrors();
       const api = await apiProtected();
       api
         .get("chamados")
@@ -216,24 +224,36 @@ export default {
       const conf = confirm(`Atualizar chamado n. ${item.id}?`);
       if (conf) {
         const api = await apiProtected();
-        api
-          .put(`/chamados/${item.id}`, this.processSelectedItem(item))
+        try {
+          const data = this.processSelectedItem(item)
+          api
+          .put(`/chamados/${item.id}`,data)
           .then(() => this.loadData())
           .catch((error) => {
             this.handleError(error);
           });
+        } catch (e) {
+          this.handleError(e);
+        }
+        
       }
     },
     async closeTicket(item){
        const conf = confirm(`Atualizar chamado n. ${item.id}?`);
       if (conf) {
         const api = await apiProtected();
-        api
-          .put(`/chamados/close/${item.id}`, this.processSelectedItem(item))
+        try {
+           const data = this.processSelectedItem(item)
+           api
+          .put(`/chamados/close/${item.id}`, data)
           .then(() => this.loadData())
           .catch((error) => {
             this.handleError(error);
           });
+        } catch (e) {
+          this.handleError(e);
+        }
+       
       }
     },
    
@@ -245,13 +265,34 @@ export default {
           this.feedback.message =
             "Faça login novamente. Token de acesso está expirado.";
         }
+        
 
         console.log("erro ao atualizar: ", error.response.data);
-      } else {
+      }
+      if(error == 407){
+            this.feedback.show = true;
+          this.feedback.variant = "danger";
+          this.feedback.message =
+            "Escolha um técnico e um local.";
+              this.$bvModal.msgBoxOk('Escolha um Técnico e um local!')
+          .then(value => {
+            this.boxOne = value
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
+        }
+      
+      else {
         console.error("Ooops: ", error);
       }
     },
     processSelectedItem(item){
+      if(item.tecnicoResponsavel == null || item.local == null){
+        
+            throw '407';
+        }
         const data = {
         abertura: item.abertura,
         alteracao: item.alteracao,
@@ -273,6 +314,11 @@ export default {
     validSolution(item){
       if(!item.solucao) return
       return item.solucao.length && item.solucao.length > 10
+    },
+    resetErrors(){
+        this.feedback.show = false;
+          this.feedback.variant = '';
+          this.feedback.message = '';
     }
   },
   mounted() {
